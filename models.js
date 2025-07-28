@@ -52,14 +52,18 @@ const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   created_at: { type: Date, default: Date.now },
   profile: profileSchema,
-  posts: [{
-    type: Schema.Types.ObjectId,
-    ref: "Post",
-  }],
-  likes: [{
-    type: Schema.Types.ObjectId,
-    ref: "Like",
-  }],
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Like",
+    },
+  ],
   following: [
     {
       type: Schema.Types.ObjectId,
