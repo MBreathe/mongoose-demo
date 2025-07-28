@@ -1,0 +1,8 @@
+# WebStorm specific
+.idea
+
+# envirinmental variables
+.env
+
+# node modules
+node_modules
