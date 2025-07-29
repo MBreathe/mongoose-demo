@@ -1,4 +1,4 @@
-import { User } from "./models.js";
+import { User } from "./models/models.js";
 import dbConnect from "./connection.js";
 import mongoose from "mongoose";
 

@@ -1,4 +1,4 @@
-import { Post } from "./models.js";
+import { Post } from "./models/models.js";
 import dbConnect from "./connection.js";
 import mongoose from "mongoose";
 

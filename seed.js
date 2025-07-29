@@ -1,7 +1,23 @@
-import { User, Post, Like, Follow } from "./models.js";
+import { User, Post, Like, Follow } from "./models/models.js";
 import mongoose from "mongoose";
 import dbConnect from "./connection.js";
 import { faker } from "@faker-js/faker";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
+if (!SALT_ROUNDS) {
+  console.error("No SALT_ROUNDS in .env file");
+  process.exit(1);
+}
+
+// ADJUST GLOBAL VARIABLES TO YOUR NEEDS
+const NUM_USERS = 50;
+const MAX_NUM_POSTS_PER_USER = 10;
+const AVG_NUM_LIKES = 10; // average 10 likes per post
+const AVG_NUM_FOLLOWS = 5; // average of 5 follows per user
 
 async function seed() {
   console.log("Starting database seeding...");
@@ -10,7 +26,7 @@ async function seed() {
   await dbConnect();
   console.log("Connected to MongoDB");
 
-  // dropping data (optional)
+  // dropping data (optional), comment out to proceed without dropping DB
   console.log("Dropping existing data...");
   await User.deleteMany();
   await Post.deleteMany();
@@ -19,7 +35,6 @@ async function seed() {
 
   // generating users
   console.log("Generating users...");
-  const NUM_USERS = 50;
   const users = [];
 
   for (let i = 0; i < NUM_USERS; i++) {
@@ -27,9 +42,12 @@ async function seed() {
     const lastName = faker.person.lastName();
     const username = faker.internet.username({ firstName, lastName });
     const email = username + "@gmail.com";
+    const password = faker.internet.password({ length: 10 });
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const user = new User({
       username: username,
+      password: hashedPassword,
       email: email,
       profile: {
         first_name: firstName,
@@ -47,7 +65,6 @@ async function seed() {
 
   // generating posts
   console.log("Generating posts...");
-  const MAX_NUM_POSTS_PER_USER = 10;
   const posts = [];
 
   for (const user of users) {
@@ -79,10 +96,10 @@ async function seed() {
 
   // generating likes
   console.log("Generating likes...");
-  const NUM_LIKES = posts.length * 10; // average 10 likes per post
+  const numLikes = users.length * AVG_NUM_LIKES;
   const likes = [];
 
-  for (let i = 0; i < NUM_LIKES; i++) {
+  for (let i = 0; i < numLikes; i++) {
     const randomUser = users[Math.floor(Math.random() * users.length)];
     const randomPost = posts[Math.floor(Math.random() * posts.length)];
 
@@ -111,9 +128,9 @@ async function seed() {
 
   // generating follows
   console.log("Generating follows...");
-  const NUM_FOLLOWS = users.length * 5; // average of 5 follows per user
+  const numFollows = users.length * AVG_NUM_FOLLOWS;
 
-  for (let i = 0; i < NUM_FOLLOWS; i++) {
+  for (let i = 0; i < numFollows; i++) {
     const followerIndex = Math.floor(Math.random() * users.length);
     let followingIndex;
 
