@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-export const followSchema = new Schema({
+const followSchema = new Schema({
   follower: {
     type: Schema.Types.ObjectId,
     ref: "User",

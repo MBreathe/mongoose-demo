@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-export const likeSchema = new Schema({
+const likeSchema = new Schema({
   created_at: { type: Date, default: Date.now },
   user: {
     type: Schema.Types.ObjectId,
