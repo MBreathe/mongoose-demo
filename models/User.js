@@ -1,7 +1,13 @@
-import { Schema } from "mongoose";
-import profileSchema from "./profileSchema.js";
+import mongoose, { Schema } from "mongoose";
 
-const UserSchema = new Schema({
+const profileSchema = new Schema({
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+  avatar: String,
+  bio: String,
+});
+
+const userSchema = new Schema({
   admin: { type: Boolean, default: false },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -34,4 +40,6 @@ const UserSchema = new Schema({
   ],
 });
 
-export default UserSchema;
+const User = mongoose.model("User", userSchema);
+
+export default User;

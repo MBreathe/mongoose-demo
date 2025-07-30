@@ -15,8 +15,7 @@
 ```
     root
     ├── models
-    │   ├── ...Schema.js
-    │   └── models.js
+    │   └── [modelName].js
     ├── connection.js
     ├── searchPost.js
     ├── searchUser.js

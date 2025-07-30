@@ -1,6 +1,6 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const LikeSchema = new Schema({
+export const likeSchema = new Schema({
   created_at: { type: Date, default: Date.now },
   user: {
     type: Schema.Types.ObjectId,
@@ -14,4 +14,6 @@ const LikeSchema = new Schema({
   },
 });
 
-export default LikeSchema;
+const Like = mongoose.model("Like", likeSchema);
+
+export default Like;

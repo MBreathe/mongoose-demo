@@ -1,11 +1,11 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const PostStatus = {
   PUBLISHED: "PUBLISHED",
   DRAFT: "DRAFT",
 };
 
-const PostSchema = new Schema({
+const postSchema = new Schema({
   status: {
     type: String,
     enum: Object.values(PostStatus),
@@ -22,4 +22,6 @@ const PostSchema = new Schema({
   },
 });
 
-export default PostSchema;
+const Post = mongoose.model("Post", postSchema);
+
+export default Post;
